@@ -37,22 +37,7 @@ function Blender({fruits = []}) {
         };
     }
 
-    // Hover styles are applied via event handlers so the hover effect is disabled while animating.
-    function handleMouseEnter(e) {
-        if (animating || replaced) return;
-        const t = e.currentTarget;
-        // Use drop-shadow so the glow follows the PNG alpha (not the image's bounding box)
-        t.style.transition = 'transform 160ms ease, filter 160ms ease';
-        t.style.transform = 'scale(1.08)';
-        t.style.filter = 'drop-shadow(0 6px 18px rgba(0, 120, 255, 0.8))';
-    }
-
-    function handleMouseLeave(e) {
-        if (animating || replaced) return;
-        const t = e.currentTarget;
-        t.style.transform = 'scale(1)';
-        t.style.filter = 'none';
-    }
+    // Hover styles are handled via CSS classes in `src/App.css` (.blender / .blender--disabled)
 
     function generateMilkshakeName(fruits) {
         if (fruits.length !== 3) return "Pick exactly 3 fruits!";
@@ -87,8 +72,6 @@ function Blender({fruits = []}) {
         // All different → creative names
         const templates = [
             `${fruitNames[0]}-${fruitNames[1]} ${fruitNames[2]} Surprise`,
-            //`Tropical ${fruitNames[0]} & ${fruitNames[1]} Mix`,
-            //`Rainbow ${fruitNames.join(", ")}!`,
             `Fruity ${fruitNames.join("-")} Explosion`,
             `${fruitNames[0]} Meets ${fruitNames[1]} & ${fruitNames[2]}`
         ];
@@ -97,7 +80,6 @@ function Blender({fruits = []}) {
         return randomTemplate;
     }
 
-
     return (
         <div>
             {!replaced ? (
@@ -105,10 +87,8 @@ function Blender({fruits = []}) {
                     ref={imgRef}
                     src="blender.png"
                     alt="Blender"
-                    style={{ width: '100px', height: '100px', cursor: animating ? 'default' : 'pointer' }}
+                    className={`blender ${animating ? 'blender--disabled' : ''}`}
                     onClick={handleClick}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
                 />
             ) : (
                 <div style={{ fontSize: '16px', fontWeight: 600 }}>{generateMilkshakeName(fruits)}</div>

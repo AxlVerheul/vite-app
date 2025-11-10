@@ -40,3 +40,24 @@
 .read-the-docs {
   color: #888;
 }
+
+/* src/Blender.css */
+.blender {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease;
+  display: inline-block;
+}
+
+/* scales and adds drop-shadow that follows PNG alpha */
+.blender:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 6px 18px rgba(0, 120, 255, 0.8));
+}
+
+/* disable hover effect while animating via a modifier class */
+.blender--disabled:hover {
+  transform: none;
+  filter: none;
+}

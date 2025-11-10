@@ -1,8 +1,6 @@
-function Button({ name = 'Button', onClick, style}) {
+function Button({ name = 'Button', onClick}) {
     return (
-        <button onClick={onClick} style={{width: '160px'}} >
-            {name}
-        </button>
+        <button onClick={onClick}>{name}</button>
     );
 }
 
