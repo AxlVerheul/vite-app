@@ -12,30 +12,25 @@ function Contact() {
     }
 
     const login = (
-            <div>
-                <h1>Enter the password</h1>
-                <form onSubmit={handleSubmit} action="#">
-                    <input type="password" placeholder="Password" />
-                    <input type="submit" />
-                </form>
-            </div>
+        <form onSubmit={handleSubmit} action="#">
+            <input type="password" placeholder="Password" />
+            <input type="submit" />
+        </form>
     );
 
     const contactInfo = (
-        <div id="authorization">
-            <h1>Contact</h1>
-            <ul>
-            <li>
-                axl@verheul.com
-            </li>
-            <li>
-                Amsterdam, The Netherlands
-            </li>
-            </ul>
-        </div>
+        <ul>
+            <li>axl@verheul.com</li>
+            <li>Amsterdam, The Netherlands</li>
+        </ul>
     )
 
-    return authorized ? contactInfo : login;
+    return (
+        <div>
+            <h1>{authorized ? 'Contact' : ' Enter the password'}</h1>
+            {authorized ? contactInfo : login}
+        </div>
+    );
 }
 
 export default Contact;
