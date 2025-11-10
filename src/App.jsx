@@ -9,6 +9,7 @@ function App() {
   return (
     <div>
       <h1>Hello GitHub</h1>
+      <h2>Pushed from Macbook Pro</h2>
       <h2>Pushed from Macbook Air</h2>
     </div>
   )
