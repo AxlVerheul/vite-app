@@ -6,6 +6,6 @@ import Milkshake from './Milkshake'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Milkshake />
+    <App />
   </StrictMode>,
 )

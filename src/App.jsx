@@ -1,13 +1,121 @@
-import { useState } from 'react'
-import contact from './Contact'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { getAllFruits } from './api';
+import IngredientSelector from './IngredientSelector';
+import Blender from './Blender';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [fruits, setFruits] = useState([]);
+  const [selectedFruits, setSelectedFruits] = useState([]);
+  const [milkshakeReady, setMilkshakeReady] = useState(false);
+  const [theme, setTheme] = useState('all'); // 'all', 'low-calorie', 'low-fat', 'low-sugar', 'high-protein'
+
+  const thresholds = {
+    'low-calorie': { calories: 33.0 },
+    'low-fat': { fat: 0.2 },
+    'low-sugar': { sugar: 4.5 }
+  };
+
+  const filteredFruits = theme === 'all' ? fruits : fruits.filter(fruit => {
+    const threshold = thresholds[theme];
+    const nutrition = fruit.nutritions;
+    
+    if (theme === 'low-calorie') return nutrition.calories <= threshold.calories;
+    if (theme === 'low-fat') return nutrition.fat <= threshold.fat;
+    if (theme === 'low-sugar') return nutrition.sugar <= threshold.sugar;
+    
+    return true;
+  });
+
+  useEffect(() => {
+    getAllFruits()
+      .then(fruits => setFruits(fruits))
+      .catch(error => alert('Error fetching fruits:', error));
+  }, []);
+
+  function resetSelection() {
+    setSelectedFruits([]);
+    setMilkshakeReady(false);
+  }
 
   return (
-    contact()
-  )
+    <div className="app-container">
+      <header className="app-header">
+        <h1>Milkshake.app</h1>
+        <p>Create your own, personalised milkshake!</p>
+      </header>
+
+      <div className="theme-switcher">
+        <button 
+          className={`theme-button ${theme === 'all' ? 'active' : ''}`}
+          onClick={() => setTheme('all')}
+        >
+          All
+        </button>
+        <button 
+          className={`theme-button ${theme === 'low-calorie' ? 'active' : ''}`}
+          onClick={() => setTheme('low-calorie')}
+        >
+          Low Calorie
+        </button>
+        <button 
+          className={`theme-button ${theme === 'low-fat' ? 'active' : ''}`}
+          onClick={() => setTheme('low-fat')}
+        >
+          Low Fat
+        </button>
+        <button 
+          className={`theme-button ${theme === 'low-sugar' ? 'active' : ''}`}
+          onClick={() => setTheme('low-sugar')}
+        >
+          Low Sugar
+        </button>
+      </div>
+
+      <div className="app-content">
+        <section className="app-section ingredient-section">
+          <IngredientSelector 
+            fruits={filteredFruits} 
+            selectedFruits={selectedFruits}
+            milkshakeReady={milkshakeReady}
+            onSelectFruits={setSelectedFruits} 
+          />
+        </section>
+
+        <div className="app-divider"></div>
+
+        <section className="app-section blender-section">
+          <Blender 
+            fruits={fruits} 
+            selectedFruits={selectedFruits}
+            milkshakeReady={milkshakeReady}
+            onMilkshakeReady={setMilkshakeReady}
+            onDeselectFruit={(index) => setSelectedFruits(prev => prev.filter((_, i) => i !== index))}
+            onToggleFruit={(index) => setSelectedFruits(prev => {
+              const updated = [...prev];
+              updated[index] = { ...updated[index], disabled: !updated[index].disabled };
+              return updated;
+            })} 
+          />
+        </section>
+      </div>
+
+      {milkshakeReady === true && (
+        <button className="reset-button" onClick={resetSelection}>
+          Make another one
+        </button>
+      )}
+      {milkshakeReady === false && selectedFruits.length > 0 && (
+        <button 
+          className="reset-button" 
+          onClick={resetSelection}
+          style={{ border: 'none', backgroundColor: 'transparent' }}
+        >
+          Reset
+        </button>
+      )}
+    </div>
+  );
 }
 
 export default App
