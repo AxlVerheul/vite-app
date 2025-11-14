@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
 import popularFruits from './popularFruits';
-import fruitEmojis from './fruitEmojis';
 
-function IngredientSelector({ fruits = [], selectedFruits = [], onSelectFruits = () => {}, milkshakeReady = false }) {
+function IngredientSelector({ fruits = [], selectedFruits = [], onSelectFruits = () => {}, smoothieReady = false }) {
 
     function selectFruit(fruit) {
         const updated = [...selectedFruits, { name: fruit, disabled: false }];
@@ -25,7 +23,7 @@ function IngredientSelector({ fruits = [], selectedFruits = [], onSelectFruits =
                             key={fruit.name}
                             className="fruit-button"
                             onClick={() => selectFruit(fruit.name)}
-                            disabled={milkshakeReady}
+                            disabled={smoothieReady}
                         >
                             {fruit.name}
                         </button>

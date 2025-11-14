@@ -7,7 +7,7 @@ import Blender from './Blender';
 function App() {
   const [fruits, setFruits] = useState([]);
   const [selectedFruits, setSelectedFruits] = useState([]);
-  const [milkshakeReady, setMilkshakeReady] = useState(false);
+  const [smoothieReady, setSmoothieReady] = useState(false);
   const [theme, setTheme] = useState('all'); // 'all', 'low-calorie', 'low-fat', 'low-sugar', 'high-protein'
 
   const thresholds = {
@@ -35,14 +35,14 @@ function App() {
 
   function resetSelection() {
     setSelectedFruits([]);
-    setMilkshakeReady(false);
+    setSmoothieReady(false);
   }
 
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Milkshake.app</h1>
-        <p>Create your own, personalised milkshake!</p>
+        <h1>Smoothie.app</h1>
+        <p>Create your own, personalised smoothie!</p>
       </header>
 
       <div className="theme-switcher">
@@ -77,7 +77,7 @@ function App() {
           <IngredientSelector 
             fruits={filteredFruits} 
             selectedFruits={selectedFruits}
-            milkshakeReady={milkshakeReady}
+            smoothieReady={smoothieReady}
             onSelectFruits={setSelectedFruits} 
           />
         </section>
@@ -88,8 +88,8 @@ function App() {
           <Blender 
             fruits={fruits} 
             selectedFruits={selectedFruits}
-            milkshakeReady={milkshakeReady}
-            onMilkshakeReady={setMilkshakeReady}
+            smoothieReady={smoothieReady}
+            onSmoothieReady={setSmoothieReady}
             onDeselectFruit={(index) => setSelectedFruits(prev => prev.filter((_, i) => i !== index))}
             onToggleFruit={(index) => setSelectedFruits(prev => {
               const updated = [...prev];
@@ -100,12 +100,12 @@ function App() {
         </section>
       </div>
 
-      {milkshakeReady === true && (
+      {smoothieReady === true && (
         <button className="reset-button" onClick={resetSelection}>
           Make another one
         </button>
       )}
-      {milkshakeReady === false && selectedFruits.length > 0 && (
+      {smoothieReady === false && selectedFruits.length > 0 && (
         <button 
           className="reset-button" 
           onClick={resetSelection}

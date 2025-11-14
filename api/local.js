@@ -1,5 +1,5 @@
 import http from "http";
-import handler from "./api.js";
+import handler from "./fruits.js";
 
 const server = http.createServer((req, res) => {
   // Forward the request to the serverless handler

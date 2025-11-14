@@ -1,5 +1,3 @@
-import React from 'react';
-
 function NutritionFacts({ fruits = [] }) {
     // Calculate nutrition totals
     const totals = {

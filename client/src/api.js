@@ -1,3 +1,4 @@
+// Fetch through serverless backend to avoid CORS issues
 export async function getAllFruits() {
   const response = await fetch('/api/fruits');
 

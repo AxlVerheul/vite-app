@@ -2,14 +2,14 @@ import React, { useRef, useState } from 'react';
 import NutritionFacts from './NutritionFacts';
 import fruitEmojis from './fruitEmojis';
 
-function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFruit, milkshakeReady = false, onMilkshakeReady}) {
+function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFruit, smoothieReady = false, onSmoothieReady}) {
     const [animating, setAnimating] = useState(false);
     const [hoveredFruitIndex, setHoveredFruitIndex] = useState(null);
     const imgRef = useRef(null);
 
     // Click handler: rotate 360deg with a ramp-up feel and shrink during the last 180deg.
     function handleClick() {
-        if (animating || milkshakeReady) return;
+        if (animating || smoothieReady) return;
         const el = imgRef.current;
         if (!el) return;
         setAnimating(true);
@@ -34,8 +34,8 @@ function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFru
         animation.onfinish = () => {
             setAnimating(false);
 
-            // Notify parent that milkshake is ready
-            onMilkshakeReady(true);
+            // Notify parent that smoothie is ready
+            onSmoothieReady(true);
         };
     }
 
@@ -43,7 +43,7 @@ function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFru
 
     return (
         <div>
-            <h2>2. Make your milkshake </h2>
+            <h2>2. Make your smoothie</h2>
 
             <div className="selected-fruits">
                 {selectedFruits.map((item, index) => {
@@ -79,17 +79,17 @@ function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFru
                         <div
                             key={index}
                             style={{ position: 'relative', display: 'inline-block' }}
-                            onMouseEnter={() => milkshakeReady && !item.disabled && setHoveredFruitIndex(index)}
+                            onMouseEnter={() => smoothieReady && !item.disabled && setHoveredFruitIndex(index)}
                             onMouseLeave={() => setHoveredFruitIndex(null)}
                         >
                             <button 
                                 className="emoji-button"
-                                onClick={() => milkshakeReady ? onToggleFruit(index) : onDeselectFruit(index)}
-                                style={{ opacity: milkshakeReady && item.disabled ? 0.3 : 1 }}
+                                onClick={() => smoothieReady ? onToggleFruit(index) : onDeselectFruit(index)}
+                                style={{ opacity: smoothieReady && item.disabled ? 0.3 : 1 }}
                             >
                                 {fruitEmojis[item.name] || '❓'}
                             </button>
-                            {isHovered && milkshakeReady && !item.disabled && fruitData && fruitData.nutritions && (
+                            {isHovered && smoothieReady && !item.disabled && fruitData && fruitData.nutritions && (
                                 <div style={{
                                     position: 'absolute',
                                     bottom: '100%',
@@ -116,7 +116,7 @@ function Blender({fruits = [], selectedFruits = [], onDeselectFruit, onToggleFru
             </div>
             
             <div>
-                {!milkshakeReady ? (
+                {!smoothieReady ? (
                     <img
                         ref={imgRef}
                         src="blender.png"
